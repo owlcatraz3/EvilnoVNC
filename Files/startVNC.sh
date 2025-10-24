@@ -29,6 +29,9 @@ nohup sudo x11vnc -xkb -noxrecord -noxfixes -noxdamage -many -shared -display $D
 nohup sudo /home/user/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 5980 &
 nohup sudo socat TCP-LISTEN:80,reuseaddr,fork TCP:localhost:5980 &
 
+# Expose chrome debugging port on port 9223
+nohup sudo socat TCP-LISTEN:9223,fork TCP:127.0.0.1:9222 &
+
 URL=$(head -1 php.ini | cut -d "=" -f 2)
 cp /home/user/noVNC/vnc_lite.html /home/user/noVNC/index.html
 TITLE=$(curl -sk $URL | grep "<title>" | grep "</title>" | sed "s/<[^>]*>//g")
@@ -36,7 +39,7 @@ echo $TITLE > title.txt && sed -i "4s/.*/$(head -1 title.txt)/g" noVNC/index.htm
 sudo mkdir -p Downloads/Default 2> /dev/null && sudo chmod 777 -R Downloads && sudo chmod 777 kiosk.zip
 sudo mkdir -p /var/run/dbus && sudo dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address
 while read -rd $'' line; do export "$line" ; done < <(jq -r <<<"$values" 'to_entries|map("\(.key)=\"\(.value)\"\u0000")[]' /tmp/client_info.txt)
-unzip -n kiosk.zip && sleep 3 && chrome-linux/chrome --no-sandbox --load-extension=/home/user/kiosk/ --kiosk $URL --fast ---fast-start --user-agent="${USERAGENT//\"}" --accept-lang=${CLIENT_LANG//\"} &
+unzip -n kiosk.zip && sleep 3 && chrome-linux/chrome --no-sandbox --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --load-extension=/home/user/kiosk/ --kiosk $URL --fast --fast-start --user-agent="${USERAGENT//\"}" --accept-lang=${CLIENT_LANG//\"} &
 
 nohup /bin/bash -c "touch /home/user/Downloads/Cookies.txt ; mkdir /home/user/Downloads/Default" &
 nohup /bin/bash -c "touch /home/user/Downloads/Keylogger.txt" &

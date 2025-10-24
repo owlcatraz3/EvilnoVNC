@@ -3,7 +3,7 @@ LABEL maintainer="JoelGMSec - https://darkbyte.net"
 ENV DISPLAY=:1
 
 RUN apt update && apt install -y --no-install-recommends \
-    adduser unzip dbus-x11 procps sudo xfce4 xvfb x11-utils x11vnc jq \
+    adduser iproute2 unzip dbus-x11 procps sudo xfce4 xvfb x11-utils x11vnc jq \
     xfce4-terminal chromium python3 python3-pip git curl gcc php socat wget && \
     rm -rf /var/lib/apt/lists/* && \
     ln -s /usr/bin/python3 /usr/bin/python && \
@@ -44,3 +44,4 @@ RUN wget "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snap
 ENTRYPOINT ["/bin/bash", "-c", "/home/user/startVNC.sh"]
 
 EXPOSE 80
+EXPOSE 9223

