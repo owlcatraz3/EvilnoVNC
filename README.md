@@ -1,5 +1,6 @@
 <p align="center"><img width=600 alt="EvilnoVNC" src="https://github.com/JoelGMSec/EvilnoVNC/blob/main/EvilnoVNC.png"></p>
 
+\*\* Please see "Mods made in Fork" section for changes made
 # EvilnoVNC
 **EvilnoVNC** is a Ready to go Phishing Platform. 
 
@@ -67,6 +68,24 @@ https://darkbyte.net/robando-sesiones-y-bypasseando-2fa-con-evilnovnc
 - [X] Faster than ever
 - [ ] Crazy new ideas
 
+# Mods made in Fork
+1. vnc_lite.html
+    - Added javascript to automatically redirect to another page when websocket connection is disconnected
+    - Manually changed the tab title using javascript
+
+2. startVNC.sh
+    - Enabled remote debugging port for chrome and expose it to port 9223 using socat
+
+3. start.sh
+    - Exposed port 9223 for chrome debugging in docker run command
+
+4. Dockerfile
+    - Installed iproute2 to enable connection debugging in docker container if needed
+
+5. Added bash scripts for easier execution
+    - **build.sh:** For building the container image
+    - **killconnection.sh:** Manually disconnects a victims websocket connection (If using a reverse proxy, the victim's websocket connection can be traced via ss and using the proxy's ip address. Modify as needed to your setup)
+    - **exportsession.sh:** Runs a script to export the chrome session storage data thru the chrome debugging port. Requires pychrome library to run. Scripts are located in the chromedebug directory.
 
 # License
 This project is licensed under the GNU 3.0 license - see the LICENSE file for more details.
